@@ -28,4 +28,28 @@ public:
         file.close();
         return stopWords;
     }
+
+    std::vector<std::string> tokenizer(const std::string textLine) {
+        std::string word = "";
+        std::vector<std::string> tokens;
+        int startingLetter = 0;
+        for (int i = 0; i < textLine.length(); i++) {
+            if (textLine.at(i) == ' ') {
+                word = textLine.substr(startingLetter, i);
+                startingLetter = i + 1;
+                tokens.push_back(word);
+            }
+        }
+        return tokens;
+    }
+
+    static std::string removePunctuation(std::string word) {
+        for (int i = 0; i < word.length(); i++) {
+            if (ispunct(word.at(i))) {
+                word = word.erase(i,1);
+                i--;
+            }
+        }
+        return word;
+    }
 };
