@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cctype>
 
 class DocumentParser {
 public: 
@@ -27,5 +28,41 @@ public:
 
         file.close();
         return stopWords;
+    }
+    std::string toLower(const std::string& text) {
+        std::string result;
+        result.reserve(text.size());
+        for (char ch : text) {
+            result += std::tolower(ch);
+        }
+        return result;
+    }
+    bool removeStopWords(const std::string& text) {
+        std::set<std::string> stopWords;
+        std::vector<std::string> tokens = tokenizer(text);
+        for (std::string& token : tokens) {
+            std::string lowerToken = toLower(token);
+            if (stopWords.find(lowerToken) != stopWords.end()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    std::vector<std::string> tokenizer(const std::string textLine) {
+        std::string word = "";
+        std::vector<std::string> tokens;
+        int startingLetter = 0;
+        for (int i = 0; i < textLine.length(); i++) {
+            if (textLine.at(i) == ' ') {
+                word = textLine.substr(startingLetter, i);
+                startingLetter = i + 1;
+                tokens.push_back(word);
+            }
+        }
+        return tokens;
+    }
+
+    static std::string removePunctuation(std::string) {
+        
     }
 };
