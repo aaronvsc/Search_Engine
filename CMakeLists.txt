@@ -10,6 +10,8 @@ file(COPY sample_data/ DESTINATION sample_data/)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -Wextra -pedantic)
 
+add_executable(tests_Document test_DocumentParser.cpp)
+add_test(NAME TestsDocument COMMAND tests_Document)
 add_executable(rapidJSONExample rapidJSONExample.cpp)
 add_executable(supersearch main.cpp)
 
