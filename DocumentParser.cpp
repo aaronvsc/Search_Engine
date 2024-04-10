@@ -2,6 +2,8 @@
 #include <iostream>
 #include <set>
 #include <fstream>
+#include <vector>
+#include <string>
 
 class DocumentParser {
 public: 
@@ -26,8 +28,4 @@ public:
         file.close();
         return stopWords;
     }
-    static bool removeStopWords(const std::string& text) {
-        std::vector<std::string> tokens = 
-    }
-
 };
