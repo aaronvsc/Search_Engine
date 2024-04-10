@@ -48,6 +48,7 @@ public:
         }
         return false;
     }
+
     std::vector<std::string> tokenizer(const std::string textLine) {
         std::string word = "";
         std::vector<std::string> tokens;
@@ -61,8 +62,14 @@ public:
         }
         return tokens;
     }
-
-    static std::string removePunctuation(std::string) {
         
+    static std::string removePunctuation(std::string word) {
+        for (int i = 0; i < word.length(); i++) {
+            if (ispunct(word.at(i))) {
+                word = word.erase(i,1);
+                i--;
+            }
+        }
+        return word;
     }
 };
