@@ -11,6 +11,7 @@
 TEST_CASE("Words stemmed correctly", "[stemming]") {
     std::string word = "running";
     std::string stemmedWord = DocumentParser::stemWord(word);
+    std::cout << stemmedWord << std::endl;
     REQUIRE(stemmedWord == "run");
 }
 

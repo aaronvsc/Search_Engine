@@ -1,6 +1,6 @@
-#include "porter2Stemmer.h"
+#include "Porter2/porter2Stemmer.cpp"
 #include <iostream>
-#include <unordered_set>
+#include <set>
 #include <fstream>
 
 class DocumentParser {
@@ -10,8 +10,8 @@ public:
         Porter2Stemmer::stem(stemmedWord);
         return stemmedWord;
     }
-    std::unordered_set<std::string> loadStopWords(const std::string& filePath) {
-        std::unordered_set<std::string> stopWords;
+    std::set<std::string> loadStopWords(const std::string& filePath) {
+        std::set<std::string> stopWords;
         std::ifstream file(filePath);
         std::string word;
 
@@ -26,4 +26,8 @@ public:
         file.close();
         return stopWords;
     }
+    static bool removeStopWords(const std::string& text) {
+        std::vector<std::string> tokens = 
+    }
+
 };
