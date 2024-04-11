@@ -64,7 +64,7 @@ public:
         }
         return tokens;
     }
-        
+
     static std::string removePunctuation(std::string word) {
         for (int i = 0; i < word.length(); i++) {
             if (ispunct(word.at(i))) {
@@ -74,6 +74,11 @@ public:
         }
         return word;
     }
+
+    //runDocument()
+    //pushToTree()
+    //relevancy()
+
 };
 std::set<std::string> DocumentParser::stopWords;
 #endif
