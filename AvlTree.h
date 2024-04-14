@@ -102,6 +102,7 @@ class AvlTree {
         insert(x, documentID, frequency, root);
     }
 
+#ifdef DEBUG
     /**
      * Check if the tree is balanced and that the height of the nodes is correct.
      * Throws an exception if the tree is not balanced or the height is wrong.
@@ -112,6 +113,7 @@ class AvlTree {
     int check_balance() {
         return check_balance(root);
     }
+#endif
 
    private:
     /**
@@ -324,6 +326,7 @@ class AvlTree {
         rotateWithRightChild(k1);
     }
 
+#ifdef DEBUG
     /**
      * Check if the tree is balanced and that the height of the nodes is correct.
      * Throws an exception if the tree is not balanced or the height is wrong.
@@ -352,5 +355,6 @@ class AvlTree {
 
         return trueNodeHeight;
     }
+#endif
 };
 #endif
