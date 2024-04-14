@@ -41,12 +41,9 @@ public:
         return result;
     }
     static bool containsStopWords(const std::string& word) {
-        std::vector<std::string> tokens = tokenizer(word);
-        for (std::string& token : tokens) {
-            std::string lowerToken = toLower(word);
-            if (stopWords.find(lowerToken) != stopWords.end()) {
-                return true;
-            }
+        std::string lowerToken = toLower(word);
+        if (stopWords.find(lowerToken) != stopWords.end()) {
+            return true;
         }
         return false;
     }
