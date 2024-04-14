@@ -3,7 +3,9 @@
 
 #include <algorithm>
 #include <iostream>
+#include <map>
 #include <stdexcept>
+#include <string>
 
 using namespace std;
 
@@ -19,9 +21,10 @@ class AvlTree {
         Comparable key;
         AvlNode *left;
         AvlNode *right;
-        int height;  // Height of the node used for balancing
+        int height;                          // Height of the node used for balancing
+        std::map<std::string, int> wordMap;  // Map to hold <documentID, frequency>
 
-        AvlNode(const Comparable &theKey, AvlNode *lt, AvlNode *rt, int h)
+        AvlNode(const Comparable &theKey, AvlNode *lt = nullptr, AvlNode *rt = nullptr, int h = 0)
             : key{theKey}, left{lt}, right{rt}, height{h} {}
     };
 
@@ -65,6 +68,11 @@ class AvlTree {
         return contains(x, root);
     }
 
+    // Method to find a node with a given key in the AVL tree
+    AvlNode *findNode(const Comparable &x) const {
+        return findNode(x, root);
+    }
+
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
@@ -90,8 +98,8 @@ class AvlTree {
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert(const Comparable &x) {
-        insert(x, root);
+    void insert(const Comparable &x, const std::string &documentID, int frequency) {
+        insert(x, documentID, frequency, root);
     }
 
     /**
@@ -112,22 +120,29 @@ class AvlTree {
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert(const Comparable &x, AvlNode *&t) {
+    void insert(const Comparable &x, const std::string &documentID, int frequency, AvlNode *&t) {
         if (t == nullptr) {
-            t = new AvlNode{x, nullptr, nullptr, 0};
-            return;  // a single node is always balanced
+            t = new AvlNode{x};
+            t->wordMap[documentID] = frequency;
+            return;
         }
 
-        if (x < t->key)
-            insert(x, t->left);
-        else if (t->key < x)
-            insert(x, t->right);
-        else {
-        }  // Duplicate; do nothing
+        if (x < t->key) {
+            insert(x, documentID, frequency, t->left);
+        } else if (t->key < x) {
+            insert(x, documentID, frequency, t->right);
+        } else {
+            // Key already exists, update the map for the document ID and frequency
+            if (t->wordMap.find(documentID) != t->wordMap.end()) {
+                // Document ID exists, update the frequency
+                t->wordMap[documentID] += frequency;
+            } else {
+                // Document ID does not exist, add a new entry
+                t->wordMap[documentID] = frequency;
+            }
+        }
 
-        // This will call balance on the way back up the tree. It will only balance
-        // once at node the where the tree got imbalanced (called node alpha in the textbook)
-        // and update the height all the way back up the tree.
+        // Rebalance the subtree rooted at the current node
         balance(t);
     }
 
@@ -144,6 +159,20 @@ class AvlTree {
             return contains(x, t->left);
         else
             return contains(x, t->right);
+    }
+
+    // Internal method to find a node with a given key in a subtree rooted at t
+    AvlNode *findNode(const Comparable &x, AvlNode *t) const {
+        if (t == nullptr) {
+            return nullptr;  // Key not found
+        }
+        if (x == t->key) {
+            return t;  // Key found, return the node
+        } else if (x < t->key) {
+            return findNode(x, t->left);  // Search in left subtree
+        } else {
+            return findNode(x, t->right);  // Search in right subtree
+        }
     }
 
     /**
@@ -163,10 +192,13 @@ class AvlTree {
      * Internal method to clone subtree.
      */
     AvlNode *clone(AvlNode *t) const {
-        if (t == nullptr)
+        if (t == nullptr) {
             return nullptr;
+        }
 
-        return new AvlNode{t->key, clone(t->left), clone(t->right), t->height};
+        AvlNode *newNode = new AvlNode(t->key, clone(t->left), clone(t->right), t->height);
+        newNode->wordMap = t->wordMap;
+        return newNode;
     }
 
     /**
@@ -176,17 +208,21 @@ class AvlTree {
      * Modified from: https://stackoverflow.com/questions/36802354/print-binary-tree-in-a-pretty-way-using-c
      */
     void prettyPrintTree(const std::string &prefix, const AvlNode *node, bool isRight) const {
-        if (node == nullptr)
+        if (node == nullptr) {
             return;
+        }
 
         std::cout << prefix;
-        // Note: this uses unicode characters for the tree structure. They might not print correctly on
-        // all systems (Windows!?!) and all types of output devices.
-        std::cout << (isRight ? "├──" : "└──");
-        // print the value of the node
-        std::cout << node->key << std::endl;
+        std::cout << (isRight ? "├──" : "└──") << node->key;
 
-        // enter the next tree level - left and right branch
+        // Print the word map inside the node
+        for (const auto &item : node->wordMap) {
+            std::cout << " (" << item.first << ": " << item.second << ")";
+        }
+
+        std::cout << std::endl;
+
+        // Enter the next tree level - left and right branch
         prettyPrintTree(prefix + (isRight ? "│   " : "    "), node->right, true);
         prettyPrintTree(prefix + (isRight ? "│   " : "    "), node->left, false);
     }
