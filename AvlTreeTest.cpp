@@ -22,11 +22,14 @@ TEST_CASE("AVL Tree Insertion and Containment Check") {
     avlTree.insert("test", "doc1", 7);
     avlTree.insert("test", "doc3", 2);
     avlTree.insert("data", "doc1", 10);
+    avlTree.insert("Aaron", "doc4", 69);
 
     SECTION("Containment check") {
         REQUIRE(avlTree.contains("example"));
         REQUIRE(avlTree.contains("test"));
         REQUIRE(avlTree.contains("data"));
+        REQUIRE(avlTree.contains("Aaron"));
+
         REQUIRE_FALSE(avlTree.contains("unknown"));  // Not inserted
     }
 
@@ -46,6 +49,11 @@ TEST_CASE("AVL Tree Insertion and Containment Check") {
         REQUIRE(testMap.find("doc3") != testMap.end());
         REQUIRE(testMap["doc1"] == 7);
         REQUIRE(testMap["doc3"] == 2);
+
+        auto aaronNode = avlTree.findNode("Aaron");
+        auto aaronMap = aaronNode->wordMap;
+        REQUIRE(aaronMap.find("doc4") != aaronMap.end());
+        REQUIRE(aaronMap["doc4"] == 69);
     }
 
     SECTION("Print tree structure") {
