@@ -3,35 +3,57 @@
 #include "catch2/catch.hpp"
 
 TEST_CASE("Empty AVL Tree") {
-    AvlTree<int> avlTree;
+    AvlTree<std::string> avlTree;
 
     SECTION("Is empty") {
         REQUIRE(avlTree.isEmpty());
     }
 
     SECTION("Containment check") {
-        REQUIRE_FALSE(avlTree.contains(10));
+        REQUIRE_FALSE(avlTree.contains("example"));
     }
 }
 
 TEST_CASE("AVL Tree Insertion and Containment Check") {
-    AvlTree<int> avlTree;
+    AvlTree<std::string> avlTree;
 
-    avlTree.insert(10);
-    avlTree.insert(5);
-    avlTree.insert(15);
-    avlTree.insert(3);
-    avlTree.insert(7);
-    avlTree.insert(12);
+    avlTree.insert("example", "doc1", 5);
+    avlTree.insert("example", "doc2", 3);
+    avlTree.insert("test", "doc1", 7);
+    avlTree.insert("test", "doc3", 2);
+    avlTree.insert("data", "doc1", 10);
+    avlTree.insert("Aaron", "doc4", 69);
 
     SECTION("Containment check") {
-        REQUIRE(avlTree.contains(10));
-        REQUIRE(avlTree.contains(5));
-        REQUIRE(avlTree.contains(15));
-        REQUIRE(avlTree.contains(3));
-        REQUIRE(avlTree.contains(7));
-        REQUIRE(avlTree.contains(12));
-        REQUIRE_FALSE(avlTree.contains(20));  // Not inserted
+        REQUIRE(avlTree.contains("example"));
+        REQUIRE(avlTree.contains("test"));
+        REQUIRE(avlTree.contains("data"));
+        REQUIRE(avlTree.contains("Aaron"));
+
+        REQUIRE_FALSE(avlTree.contains("unknown"));  // Not inserted
+    }
+
+    SECTION("Document ID and frequency check") {
+        // Check that the correct document IDs and frequencies are stored in the AVL tree
+        // `find` allows you to check the map and its contents in the AvlNode
+        auto exampleNode = avlTree.findNode("example");
+        auto exampleMap = exampleNode->wordMap;
+        REQUIRE(exampleMap.find("doc1") != exampleMap.end());
+        REQUIRE(exampleMap.find("doc2") != exampleMap.end());
+        REQUIRE(exampleMap["doc1"] == 5);
+        REQUIRE(exampleMap["doc2"] == 3);
+
+        auto testNode = avlTree.findNode("test");
+        auto testMap = testNode->wordMap;
+        REQUIRE(testMap.find("doc1") != testMap.end());
+        REQUIRE(testMap.find("doc3") != testMap.end());
+        REQUIRE(testMap["doc1"] == 7);
+        REQUIRE(testMap["doc3"] == 2);
+
+        auto aaronNode = avlTree.findNode("Aaron");
+        auto aaronMap = aaronNode->wordMap;
+        REQUIRE(aaronMap.find("doc4") != aaronMap.end());
+        REQUIRE(aaronMap["doc4"] == 69);
     }
 
     SECTION("Print tree structure") {
@@ -40,39 +62,32 @@ TEST_CASE("AVL Tree Insertion and Containment Check") {
 }
 
 TEST_CASE("AVL Tree Copy Constructor and Assignment Operator") {
-    AvlTree<int> avlTree;
+    AvlTree<std::string> avlTree;
 
-    avlTree.insert(10);
-    avlTree.insert(5);
-    avlTree.insert(15);
-    avlTree.insert(3);
-    avlTree.insert(7);
-    avlTree.insert(12);
+    avlTree.insert("example", "doc1", 5);
+    avlTree.insert("example", "doc2", 3);
+    avlTree.insert("test", "doc1", 7);
+    avlTree.insert("test", "doc3", 2);
+    avlTree.insert("data", "doc1", 10);
 
     SECTION("Copy constructor") {
-        AvlTree<int> avlTreeCopy(avlTree);
+        AvlTree<std::string> avlTreeCopy(avlTree);
 
-        REQUIRE(avlTreeCopy.contains(10));
-        REQUIRE(avlTreeCopy.contains(5));
-        REQUIRE(avlTreeCopy.contains(15));
-        REQUIRE(avlTreeCopy.contains(3));
-        REQUIRE(avlTreeCopy.contains(7));
-        REQUIRE(avlTreeCopy.contains(12));
+        REQUIRE(avlTreeCopy.contains("example"));
+        REQUIRE(avlTreeCopy.contains("test"));
+        REQUIRE(avlTreeCopy.contains("data"));
 
         // Print the copied tree structure
         avlTreeCopy.prettyPrintTree();
     }
 
     SECTION("Assignment operator") {
-        AvlTree<int> avlTreeAssigned;
+        AvlTree<std::string> avlTreeAssigned;
         avlTreeAssigned = avlTree;
 
-        REQUIRE(avlTreeAssigned.contains(10));
-        REQUIRE(avlTreeAssigned.contains(5));
-        REQUIRE(avlTreeAssigned.contains(15));
-        REQUIRE(avlTreeAssigned.contains(3));
-        REQUIRE(avlTreeAssigned.contains(7));
-        REQUIRE(avlTreeAssigned.contains(12));
+        REQUIRE(avlTreeAssigned.contains("example"));
+        REQUIRE(avlTreeAssigned.contains("test"));
+        REQUIRE(avlTreeAssigned.contains("data"));
 
         // Print the assigned tree structure
         avlTreeAssigned.prettyPrintTree();
@@ -80,11 +95,11 @@ TEST_CASE("AVL Tree Copy Constructor and Assignment Operator") {
 }
 
 TEST_CASE("AVL Tree Clearing") {
-    AvlTree<int> avlTree;
+    AvlTree<std::string> avlTree;
 
-    avlTree.insert(10);
-    avlTree.insert(5);
-    avlTree.insert(15);
+    avlTree.insert("example", "doc1", 5);
+    avlTree.insert("test", "doc2", 7);
+    avlTree.insert("data", "doc1", 10);
 
     SECTION("Clearing the tree") {
         REQUIRE_FALSE(avlTree.isEmpty());
