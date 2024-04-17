@@ -4,8 +4,10 @@
 
 TEST_CASE("Stop words are present", "[stopwords]") {
     DocumentParser::loadStopWords("../StopWords/stopWords.txt");
-    std::string text = "This is the test of the stop word removal.";
-    REQUIRE(DocumentParser::containsStopWords(text) == true);
+    std::string text1 = "This";
+    REQUIRE(DocumentParser::containsStopWords(text1) == true);
+    std::string text2 = "Able";
+    REQUIRE(DocumentParser::containsStopWords(text2) == true);
 }
 TEST_CASE("Words stemmed correctly", "[stemming]") {
     std::string word = "running";

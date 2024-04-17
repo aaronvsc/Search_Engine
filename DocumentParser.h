@@ -79,7 +79,7 @@ public:
         return word;
     }
 
-    void runDocument(std::string documentName) {
+    void runDocument(std::string documentName, AvlTree<std::string>& tree) {
         //remember to do persons and organizations later
 
         std::ifstream input(documentName);
@@ -97,16 +97,20 @@ public:
         std::cout << docText << std::endl;
 
         std::vector<std::string> tokens = tokenizer(docText);
+        std::map<std::string, double> frequencies;
 
         for (int i = 0; i < tokens.size(); i++) {
             tokens[i] = removePunctuation(tokens[i]);
             tokens[i] = toLower(tokens[i]);
             tokens[i] = stemWord(tokens[i]);
+            if (!containsStopWords(tokens[i])) {
+                frequencies[tokens[i]]++;
+            }
         }
 
         for (int i = 0; i < tokens.size(); i++) {
             if (!containsStopWords(tokens[i])) {
-                pushToTree(tokens[i], documentName, relevancy(tokens[i], tokens));
+                pushToTree(tokens[i], documentName, relevancy(tokens[i], tokens), tree);
             }
         }
 
@@ -114,15 +118,14 @@ public:
     }
 
 
-    void pushToTree(std::string token, std::string docName, double frequency) {
-
+    void pushToTree(std::string token, std::string docName, double frequency, AvlTree<std::string>& tree) {
+        tree.insert(token, docName, frequency);
         //insert(token, docName, frequency)
 
     }
 
 
     double relevancy(std::string word, std::vector<std::string> tokens) {
-        double appearancePercent = 0.00;
         int counter, appearanceNum = 0;
         for (int i = 0; i < tokens.size(); i++) {
             if (word == tokens.at(i)) {
@@ -130,7 +133,7 @@ public:
             }
             counter++;
         }
-        appearancePercent = appearanceNum / counter;
+        double appearancePercent = static_cast<double>(appearanceNum) / static_cast<double>(counter);
         return appearancePercent;
     }
 
