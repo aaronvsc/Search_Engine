@@ -16,6 +16,10 @@
 using namespace rapidjson;
 
 class DocumentParser {
+private:
+    AvlTree<std::string> PersonTree;
+    AvlTree<std::string> OrganizationTree;
+    AvlTree<std::string> WordsTree;
 
 public: 
     static std::set<std::string> stopWords;
@@ -79,7 +83,7 @@ public:
         return word;
     }
 
-    void runDocument(std::string documentName, AvlTree<std::string>& tree) {
+    void runDocument(std::string documentName) {
         //remember to do persons and organizations later
 
         std::ifstream input(documentName);
@@ -110,7 +114,28 @@ public:
 
         for (int i = 0; i < tokens.size(); i++) {
             if (!containsStopWords(tokens[i])) {
-                pushToTree(tokens[i], documentName, relevancy(tokens[i], tokens), tree);
+                pushToTreeWord(tokens[i], documentName, relevancy(tokens[i], tokens));
+            }
+        }
+
+
+        // Person
+        auto docPersons = d["persons"].GetArray();
+        for(const auto& person: docPersons){
+            std::string pers = person["name"].GetString();
+            std::vector<std::string> names = tokenizer(pers);
+            for (int i = 0; i < names.size(); i++) {
+                pushToTreePerson(names[i], documentName, 1);
+            }
+        }
+
+        // Org
+        auto docOrgs = d["organizations"].GetArray();
+        for (const auto& organization: docOrgs) {
+            std::string orgs = organization["organizations"].GetString();
+            std::vector<std::string> orgWords = tokenizer(orgs);
+            for (int i = 0; i < orgWords.size(); i++) {
+                pushToTreeOrg(orgWords[i], documentName, 1);
             }
         }
 
@@ -118,11 +143,25 @@ public:
     }
 
 
-    void pushToTree(std::string token, std::string docName, double frequency, AvlTree<std::string>& tree) {
-        tree.insert(token, docName, frequency);
+    // person AVL Tree
+    void pushToTreePerson(std::string token, std::string docName, double frequency) {
+        PersonTree.insert(token, docName, frequency);
         //insert(token, docName, frequency)
 
     }
+    // organization AVL Tree
+    void pushToTreeOrg(std::string token, std::string docName, double frequency) {
+        OrganizationTree.insert(token, docName, frequency);
+        //insert(token, docName, frequency)
+
+    }
+    // word AVL Tree
+    void pushToTreeWord(std::string token, std::string docName, double frequency) {
+        WordsTree.insert(token, docName, frequency);
+        //insert(token, docName, frequency)
+
+    }
+
 
 
     double relevancy(std::string word, std::vector<std::string> tokens) {
