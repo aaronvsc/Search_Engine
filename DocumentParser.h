@@ -10,7 +10,6 @@
 #include <cctype>
 #include <iomanip>
 #include <filesystem>
-
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/document.h"
 using namespace rapidjson;
@@ -161,8 +160,6 @@ public:
         //insert(token, docName, frequency)
 
     }
-
-
 
     double relevancy(std::string word, std::vector<std::string> tokens) {
         int counter, appearanceNum = 0;
