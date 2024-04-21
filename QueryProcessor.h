@@ -34,19 +34,25 @@ std::map<std::string, std::vector<std::string>> SeperateStirng(std::string searc
 }
 
 std::vector<std::string> findWord(std::string wordToFind) {
-
+// search through the AVL tree to find the word and put all the documents related to the word into a vector
 }
 
 std::vector<std::string> findPerson(std::string personToFind) {
-
+// search through the AVL tree to find the person and put all the documents related to the person into a vector
 }
 
 std::vector<std::string> findOrganization(std::string orgToFind) {
-
+// search through the AVL tree to find the organization and put all the documents related to the organization into a vector
 }
 
 std::vector<std::string> notFind(std::string wordToNotFind) {
+// find the total number of documents
+// search through the AVL tree to find the word and put all the documents related to the organization into a vector
+// compare the two lists and return a vector of the documents that are not in both lists
+}
 
+std::vector<std::string> rankRelevancy(std::vector<std::string> docsToRank) {
+// givens a vector of documents, find rank to relevancy of the documents
 }
 
 static std::vector<std::string> tokenizer(const std::string textLine) {
