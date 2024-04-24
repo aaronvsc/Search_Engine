@@ -11,7 +11,17 @@
 // findPerson()
 // find Person()
 class QueryProcessor {
+    private :
+    AvlTree<std::string>& PersonTree;
+    AvlTree<std::string> &OrganizationTree;
+    AvlTree<std::string>& WordsTree;
    public:
+
+   QueryProcessor(AvlTree<std::string> &person, AvlTree<std::string> &org, AvlTree<std::string> &word):PersonTree(person),OrganizationTree(org),WordsTree(word){
+        // PersonTree = person;
+        // OrganizationTree = org;
+        // WordsTree = word;
+   }
 
     std::map<std::string, std::vector<std::string>> documents;
     std::string tempWord = "";
@@ -49,6 +59,9 @@ class QueryProcessor {
 
     std::vector<std::string> findPerson(std::string personToFind) {
         // search through the AVL tree to find the person and put all the documents related to the person into a vector
+        std::vector<std::string> personDocs;
+        personDocs.push_back(PersonTree.findNode(personToFind))
+
     }
 
     std::vector<std::string> findOrganization(std::string orgToFind) {

@@ -16,11 +16,17 @@ using namespace rapidjson;
 
 class DocumentParser {
 private:
-    AvlTree<std::string> PersonTree;
-    AvlTree<std::string> OrganizationTree;
-    AvlTree<std::string> WordsTree;
+    AvlTree<std::string>& PersonTree;
+    AvlTree<std::string> &OrganizationTree;
+    AvlTree<std::string> &WordsTree;
 
 public: 
+
+    DocumentParser(AvlTree<std::string> &person, AvlTree<std::string> &org, AvlTree<std::string> &word ):PersonTree(person),OrganizationTree(org),WordsTree(word){
+        // PersonTree = person;
+        // OrganizationTree = org;
+        // WordsTree = word;
+    }
     static std::set<std::string> stopWords;
 
     static std::string stemWord(const std::string& word) {
