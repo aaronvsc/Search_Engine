@@ -10,7 +10,7 @@ file(COPY sample_data/ DESTINATION sample_data/)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -Wextra -pedantic)
 
-add_executable(tests_Document test_DocumentParser.cpp)
+add_executable(SystemTest test_System.cpp)
 add_test(NAME TestsDocument COMMAND tests_Document)
 add_executable(AvlTest AvlTreeTest.cpp AvlTree.h)
 add_executable(rapidJSONExample rapidJSONExample.cpp)
