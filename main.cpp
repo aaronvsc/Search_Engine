@@ -42,9 +42,10 @@ int main(int argc, char* argv[])
         " query <query-string>\n" << argv[0] << " ui\n";
         exit(1);
     }
+
+void startIU() {
     char userChoice;
     std::string input;
-
     while(true) {
         std::cout<< "\nSuperSearch Menu\n";
         std::cout<< "Press i to index a directory.\n";
@@ -68,15 +69,10 @@ int main(int argc, char* argv[])
 
             default: 
 
+            }
         }
-
-
-
-
-
-        
-
     }
+}
 
 
 
