@@ -152,6 +152,49 @@ class DocumentParser {
     void pushToTreeWord(std::string token, std::string docName, double frequency) {
         WordsTree.insert(token, docName, frequency);
     }
+
+    static void printDocument(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file: " << filename << std::endl;
+        return;
+    }
+
+    IStreamWrapper isw(file);
+    Document doc;
+    doc.ParseStream(isw);
+
+    // Extract article title and publication date from the parsed JSON
+    std::string articleName = doc["title"].GetString();
+    std::string publicationDate = doc["published"].GetString();
+
+    // Output the article name and publication date
+    std::cout << "Article Name: " << articleName;
+    std::cout << " Publication Date: " << publicationDate << std::endl;
+
+    file.close();
+}
+
+void printDocumentText(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Unable to open file: " << filename << std::endl;
+        return;
+    }
+    IStreamWrapper isw(file);
+    Document document;
+    document.ParseStream(isw);
+
+    if (!document.HasMember("text") || !document["text"].IsString()) {
+        std::cerr << "Text not found in JSON file: " << filename << std::endl;
+        return;
+    }
+
+    std::cout << document["text"].GetString() << std::endl;
+
+    file.close();
+}
+
 };
 std::set<std::string> DocumentParser::stopWords;
 #endif

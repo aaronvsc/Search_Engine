@@ -65,7 +65,9 @@ class QueryProcessor {
                 break;  // Exit the loop after outputting the first 15 documents
             }
             // NOTE instead of DOCUMENT ID AND FREQUENCY. WE NEED A FUNCTION TO RETRIEVE ARTICLE NAME, PUBLICATION, and DATE
-            std::cout << count + 1 << ". Document ID: " << pair.first << ", Frequency: " << pair.second << std::endl;
+            std::cout << count + 1 << ". ";
+            DocumentParser::printDocument(pair.first);
+            std::cout << std::endl;
             ++count;
         }
     }
