@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "AvlTree.h"
 #include "DocumentParser.h"
@@ -6,6 +7,7 @@ using namespace std;
 
 int main()
 {
+    /*
 
     AvlTree<std::string> PersonTree;
     AvlTree<std::string> OrganizationTree;
@@ -24,5 +26,6 @@ int main()
          << "\tsupersearch ui\n\n";
 
     cout << "supersearch not implemented yet." << endl; 
+    */
     return 0;
 }

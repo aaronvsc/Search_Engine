@@ -60,7 +60,7 @@ TEST_CASE("Process query", "[processQuery]") {
     DocumentParser documentParser(personTree, orgTree, wordTree);
 
     // Specify the folder path
-    std::string folderPath = "/home/aaronvsc/projects/assignment-4-search-engine-let-us-cook/sample_data/coll_1";
+    std::string folderPath = "/home/aaronvsc/projects/assignment-4-search-engine-let-us-cook/sample_data/coll_2";
 
     // Iterate over all files in the specified folder
     for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
@@ -75,7 +75,7 @@ TEST_CASE("Process query", "[processQuery]") {
     QueryProcessor queryProcessor(personTree, orgTree, wordTree);
 
     // Process query
-    std::map<std::string, int> result = queryProcessor.processQuery("Pessimistic PERSON:lang");
+    std::map<std::string, int> result = queryProcessor.processQuery("Scientific Results ORG:reuters");
 
     queryProcessor.outputTopDocuments(result);
 
