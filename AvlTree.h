@@ -73,6 +73,16 @@ class AvlTree {
         return findNode(x, root);
     }
 
+    std::map<std::string, int> getWordMapAtKey(const Comparable &key) const {
+        AvlNode *node = findNode(key);
+        if (node != nullptr) {
+            return node->wordMap;
+        } else {
+            // Key not found, return an empty map
+            return std::map<std::string, int>();
+        }
+    }
+
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
