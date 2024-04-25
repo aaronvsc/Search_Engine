@@ -5,7 +5,7 @@
 #include "QueryProcessor.h"
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
     /*
 
@@ -26,6 +26,5 @@ int main()
          << "\tsupersearch ui\n\n";
 
     cout << "supersearch not implemented yet." << endl; 
-    */
     return 0;
 }
