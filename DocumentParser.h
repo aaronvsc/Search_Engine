@@ -97,7 +97,7 @@ class DocumentParser {
         }
 
         if (stopWords.size() == 0) {
-            loadStopWords("StopWords/stopWords.txt");
+            loadStopWords("stopWords.txt");
         }
 
         IStreamWrapper isw(input);
@@ -154,47 +154,58 @@ class DocumentParser {
     }
 
     static void printDocument(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Error: Unable to open file: " << filename << std::endl;
-        return;
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Error: Unable to open file: " << filename << std::endl;
+            return;
+        }
+
+        IStreamWrapper isw(file);
+        Document doc;
+        doc.ParseStream(isw);
+
+        // Extract article title and publication date from the parsed JSON
+        std::string articleName = doc["title"].GetString();
+        std::string publicationDate = doc["published"].GetString();
+
+        // Output the article name and publication date
+        std::cout << "Article Name: " << articleName;
+        std::cout << " Publication Date: " << publicationDate << std::endl;
+
+        file.close();
     }
 
-    IStreamWrapper isw(file);
-    Document doc;
-    doc.ParseStream(isw);
+    void printDocumentText(const std::string& filename) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Unable to open file: " << filename << std::endl;
+            return;
+        }
+        IStreamWrapper isw(file);
+        Document document;
+        document.ParseStream(isw);
 
-    // Extract article title and publication date from the parsed JSON
-    std::string articleName = doc["title"].GetString();
-    std::string publicationDate = doc["published"].GetString();
+        if (!document.HasMember("text") || !document["text"].IsString()) {
+            std::cerr << "Text not found in JSON file: " << filename << std::endl;
+            return;
+        }
 
-    // Output the article name and publication date
-    std::cout << "Article Name: " << articleName;
-    std::cout << " Publication Date: " << publicationDate << std::endl;
+        std::cout << document["text"].GetString() << std::endl;
 
-    file.close();
-}
-
-void printDocumentText(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Unable to open file: " << filename << std::endl;
-        return;
-    }
-    IStreamWrapper isw(file);
-    Document document;
-    document.ParseStream(isw);
-
-    if (!document.HasMember("text") || !document["text"].IsString()) {
-        std::cerr << "Text not found in JSON file: " << filename << std::endl;
-        return;
+        file.close();
     }
 
-    std::cout << document["text"].GetString() << std::endl;
+    // Function to write trees into corresponding files
+    void toFile(const std::string& personFile, const std::string& orgFile, const std::string& wordFile) {
+        // Serialize PersonTree to personFile
+        PersonTree.writeToTextFile(personFile);
 
-    file.close();
-}
+        // Serialize and write OrganizationTree
+        OrganizationTree.writeToTextFile(orgFile);
 
+        // Serialize and write WordsTree
+        WordsTree.writeToTextFile(wordFile);
+    }
 };
 std::set<std::string> DocumentParser::stopWords;
 #endif
