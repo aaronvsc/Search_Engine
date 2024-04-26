@@ -80,10 +80,6 @@ class QueryProcessor {
             wordsToSearch[i] = removePunctuationExcept(wordsToSearch[i]);
         }
 
-        // for (const std::string& word : wordsToSearch) {
-        //     std::cout << word << std::endl;
-        // }
-
         for (int i = 0; i < wordsToSearch.size(); i++) {
             if (wordsToSearch[i].substr(0, 4) == "ORG:") {
                 tempWord = wordsToSearch[i].substr(4);
@@ -116,7 +112,6 @@ class QueryProcessor {
                 map2.erase(findIter);  // Remove the key from map2
             }
         }
-
         return intersectMap;
     }
 
@@ -141,6 +136,18 @@ class QueryProcessor {
             }
         }
         return word;
+    }
+
+    // Function to write trees into corresponding files
+    void getTreesfromFile(const std::string& personFile, const std::string& orgFile, const std::string& wordFile) {
+        // Serialize PersonTree to personFile
+        PersonTree.readFromTextFile(personFile);
+
+        // Serialize and write OrganizationTree
+        OrganizationTree.readFromTextFile(orgFile);
+
+        // Serialize and write WordsTree
+        WordsTree.readFromTextFile(wordFile);
     }
 };
 #endif
