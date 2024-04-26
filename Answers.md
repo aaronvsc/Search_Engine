@@ -39,6 +39,7 @@ Weekly milestones/tasks. Set out a plan at the beginning and then record when yo
 - Add a UML class diagram, etc.
 - High-level pseudo code for each component.
 
+
 ### Used Data Structures
 Explanation of what data structures are used where. For each, state
     - time and space complexity (Big-Oh),
@@ -50,8 +51,21 @@ Explanation of what data structures are used where. For each, state
 
 ### User Documentation
 - What are the features of your software?
+
+Our software is able to create an index (AVL tree) if you give it a directory of json documents to sift through organizing three different AVL trees, a tree of words, a tree of people, and a tree of organizations all relating to the documents given to the program.
+It is also able to write an index (AVL tree) to a file for storage once the program is turned off.
+It is also able to read an index (AVL tree) from a file to pull from old data if the program is restarted.
+The user is able to search for given words, names, or organizations using the query function which will return all relevant documents ranked from most relevant to least relevant.
+From those returned documents, the user is able to choose one of the documents to have all the text from the document printed out for the user to read.
+
 - Describe how to use the software.
+
+
+
 - Some example queries with the results.
+
+
+
 
 ### Performance
 - Provide statistics (word counts, timing, etc) for indexing all documents (or as many as you can in a reasonable amount of time).
