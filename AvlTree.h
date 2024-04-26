@@ -132,6 +132,9 @@ class AvlTree {
 
         std::string line;
         while (std::getline(inFile, line)) {
+
+            std::cout << line << endl;
+
             std::string key;
             std::string docID;
             int frequency;
@@ -153,9 +156,21 @@ class AvlTree {
             }
             docID = line.substr(openParenPos + 1, commaPos - openParenPos - 1);
             frequency = std::stoi(line.substr(commaPos + 1, closeParenPos - commaPos - 1));
+            std::cout << "1" << endl;
+            std::cout << line.length() << " " << closeParenPos << endl;
 
             // Insert key and associated data into AVL tree
             insert(key, docID, frequency);
+
+            while (closeParenPos + 2 != line.length()) {
+                openParenPos = line.find('(', closeParenPos);
+                commaPos = line.find(',', openParenPos);
+                closeParenPos = line.find(')', commaPos);
+                docID = line.substr(openParenPos + 1, commaPos - openParenPos - 1);
+                frequency = std::stoi(line.substr(commaPos + 1, closeParenPos - commaPos - 1));
+                insert(key, docID, frequency);
+            }
+
         }
 
         inFile.close();
