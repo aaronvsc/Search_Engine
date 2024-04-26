@@ -59,10 +59,11 @@ The user is able to search for given words, names, or organizations using the qu
 From those returned documents, the user is able to choose one of the documents to have all the text from the document printed out for the user to read.
 
 - Describe how to use the software.
-
+The user will have a command line interface from which their first argument in the command line will be called "supersearch" followed by additional information the user wants, such as indexing files and storing the index, writing the index to a file and read an index from a file, creating an index from a directory with documents, or loading the existing index and performing a query. From here, the user can type in "supersearch ui" to pull up a user interface from which there will be dropdowns to choose what the user wants to do. For example, indexing all files in a directory the user will choose and storing the index in one or several files will look like this: "supersearch index <directory>". Loading the existing index and performing a query would look like this: supersearch query "social netwwork PERSON:cramer". For the search command: "supersearch ui", the user will be able to create an index, save/load index and perform multiple queries from a list of drop downs such as "Press i for creating a new index". 
 
 
 - Some example queries with the results.
+
 
 
 
