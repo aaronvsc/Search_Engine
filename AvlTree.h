@@ -2,6 +2,7 @@
 #define AVL_TREE_H
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <stdexcept>
@@ -59,8 +60,6 @@ class AvlTree {
         return *this;
     }
 
-    // Move semantics could be implemented here.
-
     /**
      * Returns true if x is found in the tree.
      */
@@ -112,6 +111,56 @@ class AvlTree {
         insert(x, documentID, frequency, root);
     }
 
+    // Calls writer helper and checks file stream
+    void writeToTextFile(const std::string &filename) const {
+        std::ofstream outFile(filename);
+        if (!outFile) {
+            std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
+            return;
+        }
+        writeHelper(root, outFile);
+        outFile.close();
+    }
+
+    // Add this method to your AvlTree class
+    void readFromTextFile(const std::string &filename) {
+        std::ifstream inFile(filename);
+        if (!inFile) {
+            std::cerr << "Error: Unable to open file " << filename << " for reading." << std::endl;
+            return;
+        }
+
+        std::string line;
+        while (std::getline(inFile, line)) {
+            std::string key;
+            std::string docID;
+            int frequency;
+
+            // Parse the line
+            size_t colonPos = line.find(':');
+            if (colonPos == std::string::npos) {
+                std::cerr << "Error: Invalid file format. Colon not found." << std::endl;
+                continue;
+            }
+            key = line.substr(0, colonPos);
+
+            size_t openParenPos = line.find('(', colonPos);
+            size_t commaPos = line.find(',', openParenPos);
+            size_t closeParenPos = line.find(')', commaPos);
+            if (openParenPos == std::string::npos || commaPos == std::string::npos || closeParenPos == std::string::npos) {
+                std::cerr << "Error: Invalid file format. Parentheses or comma not found." << std::endl;
+                continue;
+            }
+            docID = line.substr(openParenPos + 1, commaPos - openParenPos - 1);
+            frequency = std::stoi(line.substr(commaPos + 1, closeParenPos - commaPos - 1));
+
+            // Insert key and associated data into AVL tree
+            insert(key, docID, frequency);
+        }
+
+        inFile.close();
+    }
+
 #ifdef DEBUG
     /**
      * Check if the tree is balanced and that the height of the nodes is correct.
@@ -132,6 +181,23 @@ class AvlTree {
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
+
+    // Helper method to recursively write tree nodes to file
+    void writeHelper(AvlNode *node, std::ofstream &outFile) const {
+        if (node == nullptr) {
+            return;
+        }
+        // Write current node's key and associated data to file
+        outFile << node->key << ": ";
+        for (const auto &item : node->wordMap) {
+            outFile << "(" << item.first << ", " << item.second << ") ";
+        }
+        outFile << std::endl;
+        // Recursively write left and right subtrees
+        writeHelper(node->left, outFile);
+        writeHelper(node->right, outFile);
+    }
+
     void insert(const Comparable &x, const std::string &documentID, int frequency, AvlNode *&t) {
         if (t == nullptr) {
             t = new AvlNode{x};
