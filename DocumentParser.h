@@ -69,7 +69,7 @@ class DocumentParser {
         std::string word = "";
         std::vector<std::string> tokens;
         int startingLetter = 0;
-        for (int i = 0; i < textLine.length(); i++) {
+        for (std::string::size_type i = 0; i < textLine.length(); i++) {
             if (textLine.at(i) == ' ') {
                 word = textLine.substr(startingLetter, i - startingLetter);
                 startingLetter = i + 1;
@@ -84,7 +84,7 @@ class DocumentParser {
     }
 
     static std::string removePunctuation(std::string word) {
-        for (int i = 0; i < word.length(); i++) {
+        for (std::string::size_type i = 0; i < word.length(); i++) {
             if (ispunct(word.at(i)) || !isalpha(word.at(i))) {
                 word = word.erase(i, 1);
                 i--;
@@ -112,13 +112,13 @@ class DocumentParser {
 
         std::vector<std::string> tokens = tokenizer(docText);
 
-        for (int i = 0; i < tokens.size(); i++) {
+        for (std::string::size_type i = 0; i < tokens.size(); i++) {
             tokens[i] = removePunctuation(tokens[i]);
             tokens[i] = toLower(tokens[i]);
             tokens[i] = stemWord(tokens[i]);
         }
 
-        for (int i = 0; i < tokens.size(); i++) {
+        for (std::string::size_type i = 0; i < tokens.size(); i++) {
             if (WordsTree.findNode(tokens[i]) == nullptr) {
                 uniqueWords++;
             }
