@@ -97,6 +97,7 @@ class QueryProcessor {
                 vectorOfMaps.push_back(OrganizationTree.getWordMapAtKey(tempWord));
             } else if (wordsToSearch[i].substr(0, 7) == "PERSON:") {
                 tempWord = wordsToSearch[i].substr(7);
+                tempWord = DocumentParser::toLower(wordsToSearch[i].substr(7));
                 vectorOfMaps.push_back(PersonTree.getWordMapAtKey(tempWord));
             } else if (wordsToSearch[i].substr(0, 1) == "-") {
                 tempWord = DocumentParser::stemWord(wordsToSearch[i].substr(1));
