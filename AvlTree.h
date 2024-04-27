@@ -24,11 +24,12 @@ class AvlTree {
         AvlNode *right;
         int height;                          // Height of the node used for balancing
         std::map<std::string, int> wordMap;  // Map to hold <documentID, frequency>
+        
 
         AvlNode(const Comparable &theKey, AvlNode *lt = nullptr, AvlNode *rt = nullptr, int h = 0)
             : key{theKey}, left{lt}, right{rt}, height{h} {}
     };
-
+    size_t uniqueTokens = 0;
     AvlNode *root;
 
     // Allowed imbalance in the AVL tree. A higher value will make balancing cheaper
@@ -36,6 +37,10 @@ class AvlTree {
     static const int ALLOWED_IMBALANCE = 1;
 
    public:
+
+   size_t getSize () {
+    return uniqueTokens;
+   }
     // Default constructor
     AvlTree() : root{nullptr} {
     }
@@ -217,6 +222,7 @@ class AvlTree {
         if (t == nullptr) {
             t = new AvlNode{x};
             t->wordMap[documentID] = frequency;
+            uniqueTokens++;
             return;
         }
 

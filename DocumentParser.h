@@ -20,10 +20,7 @@ class DocumentParser {
     AvlTree<std::string>& PersonTree;
     AvlTree<std::string>& OrganizationTree;
     AvlTree<std::string>& WordsTree;
-    int uniqueWords = 0;
-    int uniquePersons = 0;
-    int uniqueOrgs = 0;
-    int totalUnique = 0;
+    int filesIndexed = 0;
 
    public:
     DocumentParser(AvlTree<std::string>& person, AvlTree<std::string>& org, AvlTree<std::string>& word) : PersonTree(person), OrganizationTree(org), WordsTree(word) {}
@@ -94,6 +91,7 @@ class DocumentParser {
     }
 
     void runDocument(std::string documentName) {
+        filesIndexed++;
         std::ifstream input(documentName);
         if (!input.is_open()) {
             std::cerr << "cannot open file: " << documentName << std::endl;
@@ -119,9 +117,6 @@ class DocumentParser {
         }
 
         for (std::string::size_type i = 0; i < tokens.size(); i++) {
-            if (WordsTree.findNode(tokens[i]) == nullptr) {
-                uniqueWords++;
-            }
             if (!containsStopWords(tokens[i]) && tokens[i] != "") {
                 pushToTreeWord(tokens[i], documentName, 1);
             }
@@ -133,9 +128,6 @@ class DocumentParser {
             std::string pers = person["name"].GetString();
             std::vector<std::string> names = tokenizer(pers);
             for (const auto& name : names) {
-                if (PersonTree.findNode(name) == nullptr) {
-                uniquePersons++;
-                }
                 pushToTreePerson(name, documentName, 1);
             }
         }
@@ -144,13 +136,9 @@ class DocumentParser {
         auto docOrgs = d["entities"]["organizations"].GetArray();
         for (const auto& organization : docOrgs) {
             std::string orgName = organization["name"].GetString();
-            if (PersonTree.findNode(orgName) == nullptr) {
-                uniqueOrgs++;
-                }
             pushToTreeOrg(orgName, documentName, 1);
         }
         
-        totalUnique = uniqueOrgs + uniquePersons + uniqueWords;
         input.close();
     }
 
@@ -221,17 +209,8 @@ class DocumentParser {
         WordsTree.writeToTextFile(wordFile);
     }
 
-    int getUniqueWords () {
-        return uniqueWords;
-    }
-    int getUniquePersons () {
-        return uniquePersons;
-    }
-    int getUniqueOrgs () {
-        return uniqueOrgs;
-    }
-    int getTotalUnique () {
-        return totalUnique;
+    int getFilesIndexed() {
+        return filesIndexed;
     }
 };
 std::set<std::string> DocumentParser::stopWords;

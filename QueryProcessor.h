@@ -1,20 +1,9 @@
 #ifndef QUERY_PROCESSOR_H
-
 #define QUERY_PROCESSOR_H
-
 #include <cmath>
-
 #include <map>
-
-
-
-
 #include "AvlTree.h"
-
 #include "DocumentParser.h"
-
-
-
 
 class QueryProcessor {
    private:
@@ -26,12 +15,12 @@ class QueryProcessor {
     std::vector<std::map<std::string, int>> vectorOfMaps;
     std::vector<std::map<std::string, int>> vectorOfBadMaps;
     // Create a vector of pairs to hold the documents and their frequencies
-    std::vector<std::pair<std::string, int>>& documentFrequencyPairs;
+    std::vector<std::pair<std::string, int>> documentFrequencyPairs;
     size_t searchIndex = 0;
 
    public:
 
-    QueryProcessor(AvlTree<std::string>& person, AvlTree<std::string>& org, AvlTree<std::string>& word) : PersonTree(person), OrganizationTree(org), WordsTree(word){}
+    QueryProcessor(AvlTree<std::string>& person, AvlTree<std::string>& org, AvlTree<std::string>& word) : PersonTree(person), OrganizationTree(org), WordsTree(word){    }
 
     //Function to run entire query outputting the first 15 docs
     void runQueryProcessor(const std::string& search) {

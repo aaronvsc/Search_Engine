@@ -77,7 +77,7 @@ TEST_CASE("Process query", "[processQuery]") {
     // Process query
     std::map<std::string, int> result = queryProcessor.processQuery("Scientific Results ORG:reuters");
 
-    queryProcessor.outputTopDocuments(result);
+    //queryProcessor.outputTopDocuments(result);
 
 
 }
