@@ -32,7 +32,7 @@ Weekly milestones/tasks. Set out a plan at the beginning and then record when yo
 | Finish AVL tree           | April 15               | April 15             | 6                     | 6                      |
 | Finish Document Parser    | April 22               | April 21             | 8                     | 8                      |
 | Finish Query Processor    | April 24               | April 25             | 4                     | 8                      |
-| Finish Project            | April 27               | April 26             | 5                     | 5                      |
+| Finish Project            | April 27               | April 26             | 12                     | 12                      |
 
 ### High-level Design of Solution
 
@@ -64,14 +64,61 @@ The user will have a command line interface from which their first argument in t
 
 - Some example queries with the results.
 
+Query 1. 
 
+hcryan@genuse60.smu.edu$ ./supersearch query "per"
+1. Article Name: Eaton Vance Closed-End Funds Release Estimated Sources Of Distributions Publication Date: 2018-02-28T18:54:00.000+02:00
 
+2. Article Name: BRIEF-Francesca’s Sees Q4 2017 GAAP Earnings Per Share $0.07 To $0.11 Publication Date: 2018-02-28T05:29:00.000+02:00
 
+3. Article Name: BRIEF-Strax Ab Result For Period Jan 1 - Dec 31 2017 amounted to 0.03 Euros Per Share​ Publication Date: 2018-02-28T04:00:00.000+02:00
 
+4. Article Name: BRIEF-Kewaunee Scientific Q3 Earnings Per Share $0.31 Publication Date: 2018-02-28T08:59:00.000+02:00
+
+Query took 0.0268854 seconds
+
+Query 2. 
+
+hcryan@genuse60.smu.edu$ ./supersearch query "ORG:reuters"
+1. Article Name: BRIEF-Francesca’s Sees Q4 2017 GAAP Earnings Per Share $0.07 To $0.11 Publication Date: 2018-02-28T05:29:00.000+02:00
+
+2. Article Name: German firms doing business in UK gloomy about Brexit - survey Publication Date: 2018-02-27T20:09:00.000+02:00
+
+3. Article Name: BRIEF-Strax Ab Result For Period Jan 1 - Dec 31 2017 amounted to 0.03 Euros Per Share​ Publication Date: 2018-02-28T04:00:00.000+02:00
+
+4. Article Name: BRIEF-Kewaunee Scientific Q3 Earnings Per Share $0.31 Publication Date: 2018-02-28T08:59:00.000+02:00
+
+Query took 0.0206422 seconds
+
+Query 3. 
+
+hcryan@genuse60.smu.edu$ ./supersearch query "per ORG:reuters"
+1. Article Name: BRIEF-Francesca’s Sees Q4 2017 GAAP Earnings Per Share $0.07 To $0.11 Publication Date: 2018-02-28T05:29:00.000+02:00
+
+2. Article Name: BRIEF-Strax Ab Result For Period Jan 1 - Dec 31 2017 amounted to 0.03 Euros Per Share​ Publication Date: 2018-02-28T04:00:00.000+02:00
+
+3. Article Name: BRIEF-Kewaunee Scientific Q3 Earnings Per Share $0.31 Publication Date: 2018-02-28T08:59:00.000+02:00
+
+Query took 0.0290456 seconds
+
+Query 4. 
+
+hcryan@genuse60.smu.edu$ ./supersearch query "per ORG:reuters PERSON:strax"
+1. Article Name: BRIEF-Strax Ab Result For Period Jan 1 - Dec 31 2017 amounted to 0.03 Euros Per Share​ Publication Date: 2018-02-28T04:00:00.000+02:00
+
+Query took 0.017492 seconds
 
 
 ### Performance
 - Provide statistics (word counts, timing, etc) for indexing all documents (or as many as you can in a reasonable amount of time). 
+
+We did it with provided sample data
+
+Index took 0.090847 seconds
+Unique names: 14
+Unique orgs: 29
+Unique words: 376
+Files Indexed: 6
 
 ### Bonus Work
 Did you attempt any bonuses? If so, please give a brief description of what you did.
