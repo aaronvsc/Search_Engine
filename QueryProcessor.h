@@ -24,7 +24,10 @@ class QueryProcessor {
 
     //Function to run entire query outputting the first 15 docs
     void runQueryProcessor(const std::string& search) {
-
+        documentFrequencyPairs.clear();
+        vectorOfMaps.clear();
+        vectorOfBadMaps.clear();
+        searchIndex = 0;
         // Process the query
         std::map<std::string, int> result = processQuery(search);
         // Sort documents by frequency
