@@ -68,6 +68,8 @@ The user will have a command line interface from which their first argument in t
 
 
 
+
+
 ### Performance
 - Provide statistics (word counts, timing, etc) for indexing all documents (or as many as you can in a reasonable amount of time). 
 

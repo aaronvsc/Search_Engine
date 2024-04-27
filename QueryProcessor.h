@@ -87,10 +87,10 @@ class QueryProcessor {
     void SeperateString(std::string search) {
         std::string tempWord = "";
         std::vector<std::string> wordsToSearch = DocumentParser::tokenizer(search);
-        for (int i = 0; i < wordsToSearch.size(); i++) {
+        for (std::string::size_type i = 0; i < wordsToSearch.size(); i++) {
             wordsToSearch[i] = removePunctuationExcept(wordsToSearch[i]);
         }
-        for (int i = 0; i < wordsToSearch.size(); i++) {
+        for (std::string::size_type i = 0; i < wordsToSearch.size(); i++) {
             if (wordsToSearch[i].substr(0, 4) == "ORG:") {
                 tempWord = wordsToSearch[i].substr(4);
                 vectorOfMaps.push_back(OrganizationTree.getWordMapAtKey(tempWord));
@@ -131,7 +131,7 @@ class QueryProcessor {
     }
 
     static std::string removePunctuationExcept(std::string word) {
-        for (int i = 0; i < word.length(); ++i) {
+        for (std::string::size_type i = 0; i < word.length(); ++i) {
             if (ispunct(word.at(i)) && word.at(i) != ':' && word.at(i) != '-') {
                 word.erase(i, 1);
                 --i;
