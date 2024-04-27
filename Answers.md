@@ -11,7 +11,7 @@ Used free extension: [ ] 24 hrs or [ ] 48 hrs
 
 [x] Early submission (48 hrs)
 
-[x] Bonus work. Describe: We implemented a smart relevancy ranking.
+[x] Bonus work. Describe: We implemented an efficient relevancy ranking system. The relevancy ranking utilizes the prexisting map of document names and frequencies. We populate a vector of maps associated with the search terms(keys in the AVL trees). We then take the intersection of the maps, if there are matching documents across search terms then we sum the frequencies of those search terms inside of those documents. Any documents that do not pass the intersection are removed from the final map. The final map has documents that contain all of the search terms with the summed frequencies of the search terms. Additionally, organizations and persons are summed to this frequency with the same weighting (of 1) for their occurance in the document. The map can be sorted using a paired vector and the documents with larger total frequencies will be listed with priority.  
 
 Place [x] for what applies.
 
@@ -76,4 +76,4 @@ The user will have a command line interface from which their first argument in t
 ### Bonus Work
 Did you attempt any bonuses? If so, please give a brief description of what you did.
 
-   > Yes, the implementation of a very smart revelancy ranking. 
+   > Yes, the implementation of a creative revelancy ranking. We implemented an efficient relevancy ranking system. The relevancy ranking utilizes the prexisting map of document names and frequencies. We populate a vector of maps associated with the search terms(keys in the AVL trees). We then take the intersection of the maps, if there are matching documents across search terms then we sum the frequencies of those search terms inside of those documents. Any documents that do not pass the intersection are removed from the final map. The final map has documents that contain all of the search terms with the summed frequencies of the search terms. Additionally, organizations and persons are summed to this frequency with the same weighting (of 1) for their occurance in the document. The map can be sorted using a paired vector and the documents with larger total frequencies will be listed with priority. 
