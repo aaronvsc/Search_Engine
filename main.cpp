@@ -121,11 +121,12 @@ static void startUI() {
                 std::string wordsPath = folderName + "/wordsTree.txt";
                 std::string personPath = folderName + "/personTree.txt";
                 std::string orgsPath = folderName + "/orgsTree.txt";
-                if (!std::filesystem::create_directory(folderName)) {
-                    std::cerr << "Could not create directory" << endl;
-                    break;
-                }
-                documentParser.toFile(wordsPath, personPath, orgsPath);
+                if (!std::filesystem::exists(wordsPath))
+                    if (!std::filesystem::create_directory(folderName)) {
+                        std::cerr << "Could not create directory" << endl;
+                        break;
+                    }
+                documentParser.toFile(personPath ,orgsPath, wordsPath);
                 break;
             }
             case 'r': {
@@ -135,7 +136,7 @@ static void startUI() {
                 std::string wordsPath = folderName + "/wordsTree.txt";
                 std::string personPath = folderName + "/personTree.txt";
                 std::string orgsPath = folderName + "/orgsTree.txt";
-                queryProcessor.getTreesfromFile(wordsPath, personPath, orgsPath);
+                queryProcessor.getTreesfromFile(personPath, orgsPath, wordsPath);
                 break;
             }
             case 'e':

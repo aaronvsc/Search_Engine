@@ -140,7 +140,10 @@ class DocumentParser {
         auto docOrgs = d["entities"]["organizations"].GetArray();
         for (const auto& organization : docOrgs) {
             std::string orgName = organization["name"].GetString();
-            pushToTreeOrg(orgName, documentName, 1);
+            std::vector<std::string> orgs = tokenizer(orgName);
+            for (const auto& org : orgs) {
+                pushToTreeOrg(org, documentName, 1);
+            }
         }
         
         input.close();
