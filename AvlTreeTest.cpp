@@ -109,3 +109,25 @@ TEST_CASE("AVL Tree Clearing") {
         REQUIRE(avlTree.isEmpty());
     }
 }
+
+TEST_CASE("AVL Tree Persistence") {
+    AvlTree<std::string> test1;
+    AvlTree<std::string> test2;
+
+    test1.insert("example", "doc1", 5);
+    test1.insert("example", "doc5", 9);
+    test1.insert("test", "doc2", 7);
+    test1.insert("data", "doc3", 10);
+
+    test1.writeToTextFile("testPersistence.txt");
+    test2.readFromTextFile("testPersistence.txt");
+    // Making sure the contents of test 2 are the same as the contents of test 1.
+    REQUIRE(test2.contains("example"));
+    REQUIRE(test2.contains("test"));
+    REQUIRE(test2.contains("data"));
+    // Making sure the frequencies are still lined up with the docs
+    auto aaronNode = test2.findNode("example");
+    auto aaronMap = aaronNode->wordMap;
+    REQUIRE(aaronMap["doc1"] == 5);
+    REQUIRE(aaronMap["doc5"] == 9);
+}
