@@ -26,12 +26,14 @@ class DocumentParser {
     DocumentParser(AvlTree<std::string>& person, AvlTree<std::string>& org, AvlTree<std::string>& word) : PersonTree(person), OrganizationTree(org), WordsTree(word) {}
     static std::set<std::string> stopWords;
 
+    //stems words from a library of stemming words
     static std::string stemWord(const std::string& word) {
         std::string stemmedWord = word;
         Porter2Stemmer::trim(stemmedWord);
         Porter2Stemmer::stem(stemmedWord);
         return stemmedWord;
     }
+    //loads stop words from a file of stop words
     static void loadStopWords(const std::string& filePath) {
         std::ifstream file(filePath);
         std::string word;
@@ -45,7 +47,7 @@ class DocumentParser {
 
         file.close();
     }
-
+    //makes the text lower characters for converting
     static std::string toLower(const std::string& text) {
         std::string result;
         result.reserve(text.size());
@@ -54,6 +56,7 @@ class DocumentParser {
         }
         return result;
     }
+    //checks to see if the word in text is a stop word
     static bool containsStopWords(const std::string& word) {
         std::string lowerToken = toLower(word);
         if (stopWords.find(lowerToken) != stopWords.end()) {
@@ -61,7 +64,7 @@ class DocumentParser {
         }
         return false;
     }
-
+    //tokenizes the text lines checking for spaces
     static std::vector<std::string> tokenizer(const std::string textLine) {
         std::string word = "";
         std::vector<std::string> tokens;
@@ -79,7 +82,7 @@ class DocumentParser {
 
         return tokens;
     }
-
+    //removes punctuation from text lines
     static std::string removePunctuation(std::string word) {
         for (std::string::size_type i = 0; i < word.length(); i++) {
             if (ispunct(word.at(i)) || !isalpha(word.at(i))) {
@@ -89,7 +92,8 @@ class DocumentParser {
         }
         return word;
     }
-
+    //runs the documents by loading stop words, removing punctuation, converting lower characters, 
+    //stemming words and pushing the new text into trees of words, people, and organizations
     void runDocument(std::string documentName) {
         filesIndexed++;
         std::ifstream input(documentName);
@@ -154,7 +158,7 @@ class DocumentParser {
     void pushToTreeWord(std::string token, std::string docName, double frequency) {
         WordsTree.insert(token, docName, frequency);
     }
-
+    //prints the document of a filename
     static void printDocument(const std::string& filename) {
         std::ifstream file(filename);
         if (!file.is_open()) {
@@ -176,7 +180,7 @@ class DocumentParser {
 
         file.close();
     }
-
+    //prints the document text of a json file
     void printDocumentText(const std::string& filename) {
         std::ifstream file(filename);
         if (!file.is_open()) {
@@ -208,7 +212,7 @@ class DocumentParser {
         // Serialize and write WordsTree
         WordsTree.writeToTextFile(wordFile);
     }
-
+    //getter for index files
     int getFilesIndexed() {
         return filesIndexed;
     }
