@@ -151,15 +151,15 @@ class DocumentParser {
     }
 
     // person AVL Tree
-    void pushToTreePerson(std::string token, std::string docName, double frequency) {
+    void pushToTreePerson(std::string token, std::string docName, int frequency) {
         PersonTree.insert(token, docName, frequency);
     }
     // organization AVL Tree
-    void pushToTreeOrg(std::string token, std::string docName, double frequency) {
+    void pushToTreeOrg(std::string token, std::string docName, int frequency) {
         OrganizationTree.insert(token, docName, frequency);
     }
     // word AVL Tree
-    void pushToTreeWord(std::string token, std::string docName, double frequency) {
+    void pushToTreeWord(std::string token, std::string docName, int frequency) {
         WordsTree.insert(token, docName, frequency);
     }
     //prints the document of a filename 
