@@ -7,7 +7,7 @@
 
 class QueryProcessor {
    private:
-
+    //referencing three AVL trees
     AvlTree<std::string>& PersonTree;
     AvlTree<std::string>& OrganizationTree;
     AvlTree<std::string>& WordsTree;
@@ -19,7 +19,7 @@ class QueryProcessor {
     size_t searchIndex = 0;
 
    public:
-
+    //constructor 
     QueryProcessor(AvlTree<std::string>& person, AvlTree<std::string>& org, AvlTree<std::string>& word) : PersonTree(person), OrganizationTree(org), WordsTree(word){    }
 
     //Function to run entire query outputting the first 15 docs
@@ -53,6 +53,7 @@ class QueryProcessor {
         }
         return result;
     }
+    //ranking documents from highest to lowest frequency
     void sortDocumentsByFrequency(const std::map<std::string, int>& documentFrequencyMap) {
         // Copy the content of the map to the vector of pairs
         for (const auto& pair : documentFrequencyMap) {
@@ -64,7 +65,7 @@ class QueryProcessor {
                       return a.second > b.second;  // Sort in descending order of frequency counts
                   });
     }
-
+    //outputs top 15 documents by relevancy
     void outputDocuments(int numDocuments) {
         int count = 0;
         size_t startIndex = searchIndex;
@@ -83,7 +84,7 @@ class QueryProcessor {
         }
         searchIndex = startIndex;
     }
-
+    //splits up search string into its components
     void SeperateString(std::string search) {
         std::string tempWord = "";
         std::vector<std::string> wordsToSearch = DocumentParser::tokenizer(search);
@@ -107,6 +108,7 @@ class QueryProcessor {
             }
         }
     }
+    //compares two maps and finds which documents that are relevant for every key
     std::map<std::string, int> intersectMaps(std::map<std::string, int>& map1, std::map<std::string, int>& map2) {
         std::map<std::string, int> intersectMap;
         for (auto it = map1.begin(); it != map1.end(); ++it) {
@@ -119,6 +121,7 @@ class QueryProcessor {
         }
         return intersectMap;
     }
+    //compares two maps and outputs map not containing documents from bad maps
     std::map<std::string, int> excludeMaps(const std::map<std::string, int>& map, const std::map<std::string, int>& badMap) {
         std::map<std::string, int> excludeMap;
         for (const auto& pair : map) {
@@ -129,7 +132,7 @@ class QueryProcessor {
         }
         return excludeMap;
     }
-
+    //cleans punctuation of the query except for colons and dashes
     static std::string removePunctuationExcept(std::string word) {
         for (std::string::size_type i = 0; i < word.length(); ++i) {
             if (ispunct(word.at(i)) && word.at(i) != ':' && word.at(i) != '-') {
@@ -148,7 +151,8 @@ class QueryProcessor {
         // Serialize and write WordsTree
         WordsTree.readFromTextFile(wordFile);
     }
-    std::string getDocumentName(int index) {
+    //searches map with query results and returns document name at desired position
+    std::string getDocumentName(std::vector<std::pair<std::string, int>>::size_type index) {
     if (index >= documentFrequencyPairs.size()) {
         return ""; // Return an empty string if the index is out of range
     }

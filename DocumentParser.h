@@ -15,6 +15,7 @@
 #include "rapidjson/istreamwrapper.h"
 using namespace rapidjson;
 
+
 class DocumentParser {
    private:
     AvlTree<std::string>& PersonTree;
@@ -33,7 +34,7 @@ class DocumentParser {
         Porter2Stemmer::stem(stemmedWord);
         return stemmedWord;
     }
-    //loads stop words from a file of stop words
+    //loads stop words from a stopWord file into a set
     static void loadStopWords(const std::string& filePath) {
         std::ifstream file(filePath);
         std::string word;
@@ -161,7 +162,7 @@ class DocumentParser {
     void pushToTreeWord(std::string token, std::string docName, double frequency) {
         WordsTree.insert(token, docName, frequency);
     }
-    //prints the document of a filename
+    //prints the document of a filename 
     static void printDocument(const std::string& filename) {
         std::ifstream file(filename);
         if (!file.is_open()) {

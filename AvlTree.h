@@ -76,7 +76,7 @@ class AvlTree {
     AvlNode *findNode(const Comparable &x) const {
         return findNode(x, root);
     }
-
+    // grabs the documents and frequencies for a given word
     std::map<std::string, int> getWordMapAtKey(const Comparable &key) const {
         AvlNode *node = findNode(key);
         if (node != nullptr) {
@@ -217,7 +217,7 @@ class AvlTree {
         writeHelper(node->left, outFile);
         writeHelper(node->right, outFile);
     }
-
+    //inserts into AVL and balances
     void insert(const Comparable &x, const std::string &documentID, int frequency, AvlNode *&t) {
         if (t == nullptr) {
             t = new AvlNode{x};
@@ -368,7 +368,7 @@ class AvlTree {
         // update height
         t->height = max(height(t->left), height(t->right)) + 1;
     }
-
+    //takes two values to return the greater value
     int max(int lhs, int rhs) const {
         return lhs > rhs ? lhs : rhs;
     }

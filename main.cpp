@@ -4,6 +4,7 @@
 #include "DocumentParser.h"
 #include "QueryProcessor.h"
 
+//indexs all files in a given directory and outputs performance statistics
 void indexDirectory (DocumentParser& docParse, AvlTree<std::string>& PersonTree,AvlTree<std::string>& OrganizationTree ,AvlTree<std::string>& WordsTree) {
     std::cout << "Enter the path to directory to index: ";
     std::string input;
@@ -26,6 +27,7 @@ void indexDirectory (DocumentParser& docParse, AvlTree<std::string>& PersonTree,
     std::cout << "Files Indexed: " << docParse.getFilesIndexed() << endl;
 }
 
+//performs query and allows user to control the query menu
 void performQuery (QueryProcessor& queryProc, DocumentParser& docParse) {
 
         std::cout << "Enter the search query: ";
@@ -56,7 +58,6 @@ void performQuery (QueryProcessor& queryProc, DocumentParser& docParse) {
                 case 'q': {
                     std::cout << "Enter the search query: ";
                         std::cin.ignore();  // Clear the input buffer
-                        input;
                         std::getline(std::cin, input);
                         startQuery = std::chrono::high_resolution_clock::now();
                         queryProc.runQueryProcessor(input);
@@ -83,7 +84,7 @@ void performQuery (QueryProcessor& queryProc, DocumentParser& docParse) {
         }
     
 }
-
+//function that holds all user interface
 static void startUI() {
     AvlTree<std::string> PersonTree;
     AvlTree<std::string> OrganizationTree;
