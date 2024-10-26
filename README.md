@@ -51,18 +51,18 @@ The software operates via a command-line interface, where users can start with t
 
     supersearch ui
 
-    **SuperSearch UI Capabilities**
+    **SuperSearch UI Capabilities:**
 
     The SuperSearch user interface (supersearch ui) provides the following options for managing the search engine and queries:
 
-    Indexing: Allows users to specify a directory to index, creating an AVL tree for words, persons, and organizations found in the documents.
-    Writing Index to File: Exports the current index to files, storing each tree in a separate file.
-    Reading Index from File: Imports a saved index from files to continue searching previously indexed data.
-    Querying: Users can enter search queries and receive ranked results based on relevance. Query options include:
-        Print the next 5 documents from the result set.
-        Start a new query.
-        Print the full text of a specific document that comes up in search
-        Exit the query menu and return to the main menu.
+    1. Indexing: Allows users to specify a directory to index, creating an AVL tree for words, persons, and organizations found in the documents.
+    2. Writing Index to File: Exports the current index to files, storing each tree in a separate file.
+    3. Reading Index from File: Imports a saved index from files to continue searching previously indexed data.
+    4. Querying: Users can enter search queries and receive ranked results based on relevance. Query options include:
+        - Print the next 5 documents from the result set.
+        - Start a new query.
+        - Print the full text of a specific document that comes up in search
+        - Exit the query menu and return to the main menu.
 
 
 ## Example Queries with Results
