@@ -1,26 +1,73 @@
-By Aaron Santa Cruz, Spencer Neil, Hunter Ryan
+# Did it Make the News? - Financial News Search Engine
 
-### Used Data Structures
+### Authors: Aaron Santa Cruz, Spencer Neil, Hunter Ryan
 
-    In the AVL tree file, we used the AVL tree data structure. It's time and space complexity is O(log(n)) for the balance function to find the correct spot for an inserted item into the AVL Tree. There are no other data structures in this case that could substitute the AVL Tree.
-    In the DocumentParser file, we used the set data structure. It's time and space complexity is O(log(n)) for the insert/find function that we used in the LoadStopWords function. We used this data structure because it is sorted meaning the time complexity is better. Other data structures that could have been used are an unordered set and a list.
-    In the QueryProcessor file, we used the map data structure. It's time and space complexity is O(log(n)) for the find function that we used in the intersectMaps and exludeMaps functions. This is thet correct data structure because we needed to store a key value which is the document ID and it's respective value which is the frequencies. In this case, you could have implemented your own hashtable.
+## Project Overview
+This project is a custom-built search engine designed to search and rank financial news articles from January to May 2018, using a dataset of over 300,000 articles. Users can perform complex searches on this dataset, filtering results by keywords, people, or organizations. Each article is stored in JSON format, enabling efficient processing and querying using metadata fields.
 
-### User Documentation
+The system includes a structured index architecture, relevancy ranking based on term frequency-inverse document frequency (tf-idf), and entity-specific search functionality, creating a comprehensive financial news search engine.
 
-Our software is able to create an index (AVL tree) if you give it a directory of json documents to sift through organizing three different AVL trees, a tree of words, a tree of people, and a tree of organizations all relating to the documents given to the program.
-It is also able to write an index (AVL tree) to a file for storage once the program is turned off.
-It is also able to read an index (AVL tree) from a file to pull from old data if the program is restarted.
-The user is able to search for given words, names, or organizations using the query function which will return all relevant documents ranked from most relevant to least relevant.
-From those returned documents, the user is able to choose one of the documents to have all the text from the document printed out for the user to read.
+## Objectives
+- **Document Parsing**: Efficiently process news articles, clean data by removing stopwords and stemming keywords, and create searchable document entries.
+- **Efficient Indexing**: Use AVL trees for inverted indexing of terms, organizations, and people, allowing rapid querying.
+- **Relevance Ranking**: Implement tf-idf-based ranking for search results to ensure the most relevant articles appear first.
+- **Entity-Specific Querying**: Allow filtering by people or organizations directly in search queries.
+- **Data Persistence**: Implement custom serialization for AVL trees to retain index data between sessions, improving runtime efficiency.
 
-- How to use the software.
-The user will have a command line interface from which their first argument in the command line will be called "supersearch" followed by additional information the user wants, such as indexing files and storing the index, writing the index to a file and read an index from a file, creating an index from a directory with documents, or loading the existing index and performing a query. From here, the user can type in "supersearch ui" to pull up a user interface from which there will be dropdowns to choose what the user wants to do. For example, indexing all files in a directory the user will choose and storing the index in one or several files will look like this: "supersearch index <directory>". Loading the existing index and performing a query would look like this: supersearch query "social netwwork PERSON:cramer". For the search command: "supersearch ui", the user will be able to create an index, save/load index and perform multiple queries from a list of drop downs such as "Press q to start a new query". 
+## Learning Objectives
+This project provides an opportunity to:
+1. Work with complex data structures, such as AVL trees, and learn to manage their persistence.
+2. Develop skills in data processing with JSON, including parsing and filtering large datasets.
+3. Implement foundational search engine techniques, such as tf-idf, stop word removal, and stemming.
+4. Gain experience in designing a command-line and optional UI interface for processing user queries and displaying search results.
+5. Understand serialization for data structures, allowing for persistence across sessions.
+
+## Used Data Structures
+1. **AVL Tree**: Used for efficient indexing of keywords, people, and organizations with a time complexity of \(O(\log(n))\). This data structure allows us to maintain balanced trees for fast data retrieval.
+2. **Set**: Employed in the `DocumentParser` to manage stopwords, offering sorted, efficient data handling for functions like `LoadStopWords`.
+3. **Map**: Used in `QueryProcessor` to store and retrieve document IDs along with term frequencies, which aids in quick lookups during query processing.
+
+## Features
+- **User Interface**: 
+  - Supports commands for indexing, querying, and viewing specific articles.
+  - Supports entity-based search, allowing for queries such as `ORG:reuters` or `PERSON:strax` for precise results.
+  - A UI interface provides dropdown options for indexing, saving/loading indexes, and running queries.
+  
+## How to Use the Software
+The software operates via a command-line interface, where users can start with the `supersearch` command followed by specific actions, including indexing files, storing/loading an index, and performing searches. For an interactive experience, a user interface (`supersearch ui`) provides dropdown options for various actions. Here are examples of commands:
+
+- **Indexing a Directory**:  
+  To index all files in a specified directory, use:
+
+  supersearch index <directory>
+
+- **Loading and Querying an Existing Index**:
+    To load an existing index and perform a search with:
+
+    supersearch query "social network PERSON:cramer"
+
+- **User Interface Mode**:
+    Launch the UI with dropdown options by entering:
+
+    supersearch ui
+
+    **SuperSearch UI Capabilities**
+
+    The SuperSearch user interface (supersearch ui) provides the following options for managing the search engine and queries:
+
+    Indexing: Allows users to specify a directory to index, creating an AVL tree for words, persons, and organizations found in the documents.
+    Writing Index to File: Exports the current index to files, storing each tree in a separate file.
+    Reading Index from File: Imports a saved index from files to continue searching previously indexed data.
+    Querying: Users can enter search queries and receive ranked results based on relevance. Query options include:
+        Print the next 5 documents from the result set.
+        Start a new query.
+        Print the full text of a specific document that comes up in search
+        Exit the query menu and return to the main menu.
 
 
-- Some example queries with the results.
+## Example Queries with Results
 
-Query 1. 
+**Query 1.** 
 
 hcryan@genuse60.smu.edu$ ./supersearch query "per"
 1. Article Name: Eaton Vance Closed-End Funds Release Estimated Sources Of Distributions Publication Date: 2018-02-28T18:54:00.000+02:00
@@ -33,7 +80,7 @@ hcryan@genuse60.smu.edu$ ./supersearch query "per"
 
 Query took 0.0268854 seconds
 
-Query 2. 
+**Query 2.**
 
 hcryan@genuse60.smu.edu$ ./supersearch query "ORG:reuters"
 1. Article Name: BRIEF-Francesca’s Sees Q4 2017 GAAP Earnings Per Share $0.07 To $0.11 Publication Date: 2018-02-28T05:29:00.000+02:00
@@ -46,7 +93,7 @@ hcryan@genuse60.smu.edu$ ./supersearch query "ORG:reuters"
 
 Query took 0.0206422 seconds
 
-Query 3. 
+**Query 3.** 
 
 hcryan@genuse60.smu.edu$ ./supersearch query "per ORG:reuters"
 1. Article Name: BRIEF-Francesca’s Sees Q4 2017 GAAP Earnings Per Share $0.07 To $0.11 Publication Date: 2018-02-28T05:29:00.000+02:00
@@ -57,7 +104,7 @@ hcryan@genuse60.smu.edu$ ./supersearch query "per ORG:reuters"
 
 Query took 0.0290456 seconds
 
-Query 4. 
+**Query 4.** 
 
 hcryan@genuse60.smu.edu$ ./supersearch query "per ORG:reuters PERSON:strax"
 1. Article Name: BRIEF-Strax Ab Result For Period Jan 1 - Dec 31 2017 amounted to 0.03 Euros Per Share​ Publication Date: 2018-02-28T04:00:00.000+02:00
